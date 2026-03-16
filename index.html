@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Animation Gallery — testscript.info</title>
+  <meta name="description" content="Galleria di animazioni CSS pure: spinner, transizioni, hover, keyframes. Copia il codice e usalo nei tuoi progetti.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CSS Animation Gallery — testscript.info">
+  <meta property="og:description" content="Galleria di animazioni CSS pure: spinner, transizioni, hover, keyframes.">
+  <meta property="og:url" content="https://testscript.info/demo/css-animations/">
+  <meta property="og:image" content="https://testscript.info/img/cover-image_1080.jpg">
+  <link rel="canonical" href="https://testscript.info/demo/css-animations/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="CSS Animation Gallery — testscript.info">
+  <meta name="twitter:description" content="Galleria di animazioni CSS pure: spinner, transizioni, hover, keyframes.">
+  <meta name="twitter:image" content="https://testscript.info/img/cover-image_1080.jpg">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"CSS Animation Gallery","description":"Galleria di animazioni CSS pure con codice copiabile.","url":"https://testscript.info/demo/css-animations/","programmingLanguage":"CSS","author":{"@type":"Person","name":"Antonio Trapasso"}}
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../shared/social.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0f172a;--surface:#1e293b;--border:rgba(255,255,255,.08);--text:#e2e8f0;--muted:#94a3b8;--accent:#ec4899}
+    [data-theme="light"]{--bg:#f8fafc;--surface:#fff;--border:#e2e8f0;--text:#1e293b;--muted:#64748b}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px)}
+    .topbar a{color:var(--muted);text-decoration:none;font-size:.85rem;display:flex;align-items:center;gap:.4rem;transition:color .2s}
+    .topbar a:hover{color:var(--accent)}
+    .brand{font-weight:700;font-size:1.1rem;color:var(--text)}.brand span{color:var(--accent)}
+    .controls{display:flex;gap:.5rem;align-items:center}
+    .theme-toggle{background:transparent;border:1px solid var(--border);color:var(--muted);width:34px;height:34px;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+    .theme-toggle:hover{border-color:var(--accent);color:var(--text)}
+    .hero{text-align:center;padding:4rem 1rem 2rem}
+    .hero h1{font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,#ec4899,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero p{color:var(--muted);max-width:500px;margin:.5rem auto 0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;padding:2rem;max-width:1200px;margin:0 auto}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .3s,box-shadow .3s}
+    .card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.2)}
+    .card-preview{height:200px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.15);position:relative;overflow:hidden}
+    .card-body{padding:1.2rem}
+    .card-body h3{font-size:1rem;font-weight:700;margin-bottom:.3rem}
+    .card-body p{font-size:.8rem;color:var(--muted);margin-bottom:.8rem}
+    .card-code{background:var(--bg);border-radius:8px;padding:.8rem;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted);max-height:120px;overflow:auto;position:relative;display:none}
+    .card-code.open{display:block}
+    .card-actions{display:flex;gap:.5rem}
+    .card-btn{padding:.35rem .7rem;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;font-size:.75rem;transition:all .2s}
+    .card-btn:hover{border-color:var(--accent);color:var(--accent)}
+    /* Animations */
+    .anim-spin{width:50px;height:50px;border:4px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .anim-pulse{width:60px;height:60px;background:var(--accent);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.5}}
+    .anim-bounce{width:40px;height:40px;background:#22c55e;border-radius:50%;animation:bounce 1s ease infinite}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-40px)}}
+    .anim-wave{display:flex;gap:6px;align-items:end;height:60px}
+    .anim-wave span{width:8px;background:var(--accent);border-radius:4px;animation:wave 1.2s ease-in-out infinite}
+    .anim-wave span:nth-child(2){animation-delay:.1s}.anim-wave span:nth-child(3){animation-delay:.2s}.anim-wave span:nth-child(4){animation-delay:.3s}.anim-wave span:nth-child(5){animation-delay:.4s}
+    @keyframes wave{0%,100%{height:15px}50%{height:55px}}
+    .anim-morph{width:60px;height:60px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);animation:morph 4s ease-in-out infinite}
+    @keyframes morph{0%,100%{border-radius:50% 50% 50% 50%}25%{border-radius:30% 70% 50% 50%}50%{border-radius:50% 30% 70% 30%}75%{border-radius:70% 50% 30% 70%}}
+    .anim-typing{font-family:'JetBrains Mono',monospace;font-size:1.2rem;color:var(--accent);border-right:3px solid var(--accent);white-space:nowrap;overflow:hidden;animation:typing 3.5s steps(20) infinite,blink .7s step-end infinite alternate}
+    @keyframes typing{0%,100%{width:0}50%{width:12ch}}
+    @keyframes blink{50%{border-color:transparent}}
+    .anim-flip{width:60px;height:60px;background:linear-gradient(135deg,#f59e0b,#ef4444);border-radius:12px;animation:flip 2s ease-in-out infinite}
+    @keyframes flip{0%{transform:perspective(400px) rotateY(0)}50%{transform:perspective(400px) rotateY(180deg)}100%{transform:perspective(400px) rotateY(360deg)}}
+    .anim-gradient{width:200px;height:60px;border-radius:12px;background:linear-gradient(270deg,#ec4899,#8b5cf6,#3b82f6,#22c55e);background-size:600% 600%;animation:gradient 4s ease infinite}
+    @keyframes gradient{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    .anim-shake{width:50px;height:50px;background:#ef4444;border-radius:10px;animation:shake 0.82s cubic-bezier(.36,.07,.19,.97) infinite}
+    @keyframes shake{10%,90%{transform:translate3d(-1px,0,0)}20%,80%{transform:translate3d(2px,0,0)}30%,50%,70%{transform:translate3d(-4px,0,0)}40%,60%{transform:translate3d(4px,0,0)}}
+    .anim-orbit{position:relative;width:100px;height:100px}
+    .anim-orbit .center{width:20px;height:20px;background:var(--accent);border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+    .anim-orbit .sat{width:14px;height:14px;background:#3b82f6;border-radius:50%;position:absolute;top:0;left:50%;transform:translateX(-50%);animation:orbit 2s linear infinite;transform-origin:50% 50px}
+    @keyframes orbit{to{transform:translateX(-50%) rotate(360deg)}}
+    .anim-glitch{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:800;color:var(--text);position:relative}
+    .anim-glitch::before,.anim-glitch::after{content:attr(data-text);position:absolute;top:0;left:0;width:100%;height:100%}
+    .anim-glitch::before{left:2px;text-shadow:-2px 0 #ec4899;clip-path:rect(24px,550px,56px,0);animation:glitch-1 2.5s infinite linear alternate-reverse}
+    .anim-glitch::after{left:-2px;text-shadow:-2px 0 #3b82f6;clip-path:rect(85px,550px,140px,0);animation:glitch-2 2s infinite linear alternate-reverse}
+    @keyframes glitch-1{0%{clip-path:rect(40px,9999px,60px,0)}20%{clip-path:rect(10px,9999px,30px,0)}40%{clip-path:rect(60px,9999px,80px,0)}60%{clip-path:rect(20px,9999px,50px,0)}80%{clip-path:rect(70px,9999px,90px,0)}100%{clip-path:rect(30px,9999px,55px,0)}}
+    @keyframes glitch-2{0%{clip-path:rect(60px,9999px,80px,0)}20%{clip-path:rect(30px,9999px,55px,0)}40%{clip-path:rect(10px,9999px,40px,0)}60%{clip-path:rect(50px,9999px,70px,0)}80%{clip-path:rect(5px,9999px,25px,0)}100%{clip-path:rect(45px,9999px,65px,0)}}
+    .anim-ripple{width:60px;height:60px;position:relative}
+    .anim-ripple span{position:absolute;border:3px solid var(--accent);border-radius:50%;animation:ripple 1.5s ease-out infinite}
+    .anim-ripple span:nth-child(2){animation-delay:.5s}
+    @keyframes ripple{0%{width:10px;height:10px;opacity:1;top:50%;left:50%;transform:translate(-50%,-50%)}100%{width:80px;height:80px;opacity:0;top:50%;left:50%;transform:translate(-50%,-50%)}}
+    .anim-skeleton{width:180px;height:20px;border-radius:6px;background:linear-gradient(90deg,var(--surface) 25%,rgba(255,255,255,.08) 50%,var(--surface) 75%);background-size:200% 100%;animation:skeleton 1.5s ease infinite}
+    @keyframes skeleton{to{background-position:-200% 0}}
+    footer{text-align:center;padding:3rem 1rem 2rem;color:var(--muted);font-size:.8rem}
+    footer a{color:var(--accent);text-decoration:none}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:1rem">
+      <a href="../" class="brand">ts<span>.</span> <small style="font-weight:400;color:var(--muted)">/ css-animations</small></a>
+    </div>
+    <div class="controls">
+      <button class="theme-toggle" onclick="toggleTheme()"><i class="bi bi-sun-fill" id="themeIcon"></i></button>
+      <a href="../"><i class="bi bi-arrow-left"></i> Demo Hub</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>CSS Animation Gallery</h1>
+    <p>12 animazioni CSS pure — nessun JavaScript richiesto. Clicca "Codice" per copiare.</p>
+  </div>
+
+  <div class="grid" id="gallery"></div>
+
+  <footer>
+    <p>© 2026 <a href="../">testscript.info</a> — CSS Animations</p>
+  </footer>
+
+  <div class="social-share" id="socialShare">
+    <a href="#" class="share-fb" title="Facebook" onclick="shareOn('facebook')"><i class="bi bi-facebook"></i></a>
+    <a href="#" class="share-x" title="X" onclick="shareOn('x')"><i class="bi bi-twitter-x"></i></a>
+    <a href="#" class="share-li" title="LinkedIn" onclick="shareOn('linkedin')"><i class="bi bi-linkedin"></i></a>
+    <a href="#" class="share-wa" title="WhatsApp" onclick="shareOn('whatsapp')"><i class="bi bi-whatsapp"></i></a>
+    <a href="#" class="share-tg" title="Telegram" onclick="shareOn('telegram')"><i class="bi bi-telegram"></i></a>
+  </div>
+
+  <script src="../shared/social.js"></script>
+  <script>
+    const animations = [
+      {name:'Spinner',desc:'Loading spinner classico',html:'<div class="anim-spin"></div>',css:`.spinner {\n  width: 50px;\n  height: 50px;\n  border: 4px solid rgba(255,255,255,.1);\n  border-top-color: #ec4899;\n  border-radius: 50%;\n  animation: spin 1s linear infinite;\n}\n@keyframes spin {\n  to { transform: rotate(360deg); }\n}`},
+      {name:'Pulse',desc:'Effetto pulsazione',html:'<div class="anim-pulse"></div>',css:`.pulse {\n  width: 60px;\n  height: 60px;\n  background: #ec4899;\n  border-radius: 50%;\n  animation: pulse 2s ease-in-out infinite;\n}\n@keyframes pulse {\n  0%, 100% { transform: scale(1); opacity: 1; }\n  50% { transform: scale(1.3); opacity: 0.5; }\n}`},
+      {name:'Bounce',desc:'Rimbalzo verticale',html:'<div class="anim-bounce"></div>',css:`.bounce {\n  width: 40px;\n  height: 40px;\n  background: #22c55e;\n  border-radius: 50%;\n  animation: bounce 1s ease infinite;\n}\n@keyframes bounce {\n  0%, 100% { transform: translateY(0); }\n  50% { transform: translateY(-40px); }\n}`},
+      {name:'Wave Bars',desc:'Barre audio equalizer',html:'<div class="anim-wave"><span></span><span></span><span></span><span></span><span></span></div>',css:`.wave { display: flex; gap: 6px; align-items: end; height: 60px; }\n.wave span {\n  width: 8px;\n  background: #ec4899;\n  border-radius: 4px;\n  animation: wave 1.2s ease-in-out infinite;\n}\n.wave span:nth-child(2) { animation-delay: .1s; }\n.wave span:nth-child(3) { animation-delay: .2s; }\n@keyframes wave {\n  0%, 100% { height: 15px; }\n  50% { height: 55px; }\n}`},
+      {name:'Morph',desc:'Deformazione fluida',html:'<div class="anim-morph"></div>',css:`.morph {\n  width: 60px;\n  height: 60px;\n  background: linear-gradient(135deg, #3b82f6, #8b5cf6);\n  animation: morph 4s ease infinite;\n}\n@keyframes morph {\n  0%, 100% { border-radius: 50%; }\n  25% { border-radius: 30% 70% 50% 50%; }\n  50% { border-radius: 50% 30% 70% 30%; }\n  75% { border-radius: 70% 50% 30% 70%; }\n}`},
+      {name:'Typing',desc:'Effetto macchina da scrivere',html:'<span class="anim-typing">Hello World!</span>',css:`.typing {\n  font-family: monospace;\n  border-right: 3px solid #ec4899;\n  white-space: nowrap;\n  overflow: hidden;\n  animation:\n    typing 3.5s steps(20) infinite,\n    blink 0.7s step-end infinite alternate;\n}\n@keyframes typing { 0%,100%{width:0} 50%{width:12ch} }\n@keyframes blink { 50%{border-color:transparent} }`},
+      {name:'3D Flip',desc:'Rotazione 3D prospettica',html:'<div class="anim-flip"></div>',css:`.flip {\n  width: 60px;\n  height: 60px;\n  background: linear-gradient(135deg, #f59e0b, #ef4444);\n  border-radius: 12px;\n  animation: flip 2s ease infinite;\n}\n@keyframes flip {\n  0% { transform: perspective(400px) rotateY(0); }\n  50% { transform: perspective(400px) rotateY(180deg); }\n  100% { transform: perspective(400px) rotateY(360deg); }\n}`},
+      {name:'Gradient Flow',desc:'Gradiente animato',html:'<div class="anim-gradient"></div>',css:`.gradient {\n  width: 200px;\n  height: 60px;\n  border-radius: 12px;\n  background: linear-gradient(270deg, #ec4899, #8b5cf6, #3b82f6, #22c55e);\n  background-size: 600% 600%;\n  animation: gradient 4s ease infinite;\n}\n@keyframes gradient {\n  0% { background-position: 0% 50%; }\n  50% { background-position: 100% 50%; }\n  100% { background-position: 0% 50%; }\n}`},
+      {name:'Shake',desc:'Vibrazione di errore',html:'<div class="anim-shake"></div>',css:`.shake {\n  width: 50px;\n  height: 50px;\n  background: #ef4444;\n  border-radius: 10px;\n  animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) infinite;\n}\n@keyframes shake {\n  10%, 90% { transform: translate3d(-1px, 0, 0); }\n  20%, 80% { transform: translate3d(2px, 0, 0); }\n  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }\n  40%, 60% { transform: translate3d(4px, 0, 0); }\n}`},
+      {name:'Orbit',desc:'Satellite in orbita',html:'<div class="anim-orbit"><div class="center"></div><div class="sat"></div></div>',css:`.orbit { position: relative; width: 100px; height: 100px; }\n.orbit .center {\n  width: 20px; height: 20px;\n  background: #ec4899;\n  border-radius: 50%;\n  position: absolute;\n  top: 50%; left: 50%;\n  transform: translate(-50%, -50%);\n}\n.orbit .sat {\n  width: 14px; height: 14px;\n  background: #3b82f6;\n  border-radius: 50%;\n  position: absolute;\n  top: 0; left: 50%;\n  transform: translateX(-50%);\n  animation: orbit 2s linear infinite;\n  transform-origin: 50% 50px;\n}\n@keyframes orbit { to { transform: translateX(-50%) rotate(360deg); } }`},
+      {name:'Glitch',desc:'Effetto glitch su testo',html:'<span class="anim-glitch" data-text="GLITCH">GLITCH</span>',css:`.glitch {\n  font-family: monospace;\n  font-size: 1.5rem;\n  font-weight: 800;\n  position: relative;\n}\n.glitch::before, .glitch::after {\n  content: attr(data-text);\n  position: absolute;\n  top: 0; left: 0;\n}\n.glitch::before {\n  left: 2px;\n  text-shadow: -2px 0 #ec4899;\n  animation: glitch 2.5s infinite;\n}\n.glitch::after {\n  left: -2px;\n  text-shadow: -2px 0 #3b82f6;\n  animation: glitch 2s infinite reverse;\n}`},
+      {name:'Skeleton',desc:'Placeholder di caricamento',html:'<div style="display:flex;flex-direction:column;gap:8px"><div class="anim-skeleton"></div><div class="anim-skeleton" style="width:140px"></div><div class="anim-skeleton" style="width:100px"></div></div>',css:`.skeleton {\n  height: 20px;\n  border-radius: 6px;\n  background: linear-gradient(90deg, #1e293b 25%, rgba(255,255,255,.08) 50%, #1e293b 75%);\n  background-size: 200% 100%;\n  animation: skeleton 1.5s ease infinite;\n}\n@keyframes skeleton {\n  to { background-position: -200% 0; }\n}`}
+    ];
+
+    const gallery = document.getElementById('gallery');
+    animations.forEach((a, i) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-preview">${a.html}</div>
+        <div class="card-body">
+          <h3>${a.name}</h3>
+          <p>${a.desc}</p>
+          <div class="card-actions">
+            <button class="card-btn" onclick="toggleCode(${i})"><i class="bi bi-code-slash"></i> Codice</button>
+            <button class="card-btn" onclick="copy(${i})"><i class="bi bi-clipboard"></i> Copia CSS</button>
+          </div>
+          <div class="card-code" id="code-${i}"><pre>${escHtml(a.css)}</pre></div>
+        </div>`;
+      gallery.appendChild(card);
+    });
+
+    function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+    function toggleCode(i){document.getElementById('code-'+i).classList.toggle('open');}
+    function copy(i){navigator.clipboard.writeText(animations[i].css).then(()=>{const b=event.target.closest('.card-btn');b.innerHTML='<i class="bi bi-check2"></i> Copiato!';setTimeout(()=>b.innerHTML='<i class="bi bi-clipboard"></i> Copia CSS',2000);});}
+
+    function toggleTheme(){const h=document.documentElement;const n=h.getAttribute('data-theme')==='dark'?'light':'dark';h.setAttribute('data-theme',n);document.getElementById('themeIcon').className=n==='dark'?'bi bi-sun-fill':'bi bi-moon-stars-fill';localStorage.setItem('demo_theme',n);}
+    (()=>{const s=localStorage.getItem('demo_theme');if(s){document.documentElement.setAttribute('data-theme',s);document.getElementById('themeIcon').className=s==='dark'?'bi bi-sun-fill':'bi bi-moon-stars-fill';}})();
+  </script>
+</body>
+</html>
